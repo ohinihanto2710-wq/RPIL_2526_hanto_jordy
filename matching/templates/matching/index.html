@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MentorLink — Recherche de mentor</title>
+  <link rel="stylesheet" href="{% static 'matching/css/style.css' %}">
+</head>
+<body>
+
+  <header class="site-header">
+    <h1>IFRI MentorLink</h1>
+    <p>Trouvez un mentor compatible avec vos matières et vos disponibilités.</p>
+  </header>
+
+  <main class="container">
+
+    <section class="search-card">
+      <h2>Rechercher un mentor</h2>
+      <form id="search-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label for="matieres">Matières / compétences recherchées</label>
+          <select id="matieres" name="matieres" multiple required size="6">
+            {% for matiere in matieres %}
+              <option value="{{ matiere.nom }}">{{ matiere.nom }}</option>
+            {% endfor %}
+          </select>
+          <small>Maintenez Ctrl (ou Cmd sur Mac) pour sélectionner plusieurs matières.</small>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="jour">Jour souhaité (optionnel)</label>
+            <select id="jour" name="jour">
+              <option value="">-- Peu importe --</option>
+              <option value="lundi">Lundi</option>
+              <option value="mardi">Mardi</option>
+              <option value="mercredi">Mercredi</option>
+              <option value="jeudi">Jeudi</option>
+              <option value="vendredi">Vendredi</option>
+              <option value="samedi">Samedi</option>
+              <option value="dimanche">Dimanche</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="heure">Heure souhaitée</label>
+            <input type="time" id="heure" name="heure" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="filiere">Filière (optionnel)</label>
+          <select id="filiere" name="filiere">
+            <option value="">-- Peu importe --</option>
+            <option value="IA">Intelligence Artificielle</option>
+            <option value="IM">Ingénierie Mathématique</option>
+            <option value="GL">Génie Logiciel</option>
+            <option value="SE_IOT">Systèmes Embarqués & IoT</option>
+            <option value="SI">Systèmes d'Information</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-primary">Rechercher</button>
+      </form>
+    </section>
+
+    <section class="results-section">
+      <h2>Résultats</h2>
+      <div id="results-status" class="results-status"></div>
+      <div id="results-list" class="results-list"></div>
+    </section>
+
+  </main>
+
+  <script src="{% static 'matching/js/main.js' %}"></script>
+</body>
+</html>
